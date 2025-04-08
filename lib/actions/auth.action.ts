@@ -28,7 +28,7 @@ export async function signUp(params: SignUpParams) {
             message: 'User created successfully',
         }
 
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.error('error creating a user', e);
         if (e.code === 'auth/email-already-exists') {
             return {
@@ -55,7 +55,7 @@ export async function signIn(params: SignInParams) {
             }
         }
         await setSessionCookie(idToken);
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.log(e);
         return {
             success: false,
@@ -90,7 +90,7 @@ export async function getCurrentUser(): Promise<User | null> {
             ...userRecord.data(),
             id: userRecord.id,
         } as User;
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.log(e);
         return null;
     }

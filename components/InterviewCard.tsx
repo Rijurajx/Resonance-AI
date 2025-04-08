@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import DisplayTechIcons from './DisplayTechIcons';
-const InterviewCard = ({interviewId,
-    userId,
+const InterviewCard = ({
     role,
     type,
     techstack,
