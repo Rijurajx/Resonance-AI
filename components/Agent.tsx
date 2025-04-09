@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { vapi } from "@/lib/vapi.sdk";
 import { useEffect, useState } from "react";
 import { interviewer } from "@/constants";
-
 enum CallStatus {
   INACTIVE = "INACTIVE",
   CONNECTING = "CONNECTING",
@@ -56,27 +55,45 @@ const Agent = ({ userName, userId, type, interviewId, questions }: AgentProps) =
     };
   }, []);
     
-    const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-        console.log("Generate feedback here")
-        //To DO 
-        const { success, id } = {
-            success: true,
-            id: "feedback-id"
-        }
-        if (success && id) {
-            router.push(`/interview/${interviewId}/feedback`);
-        } else {
-            console.log("Error generating feedback");
-            router.push('/');
-        }
+  const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+    console.log("Generating feedback via API...");
+  
+    try {
+      const response = await fetch("/api/generate-feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          interviewId,
+          userId,
+          transcript: messages,
+        }),
+      });
+  
+      const { success, feedbackId: id } = await response.json();
+  
+      if (success && id) {
+        router.push(`/interview/${interviewId}/feedback`);
+      } else {
+        console.log("Error generating feedback");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("API call failed:", error);
+      router.push("/");
     }
+  };
+  
 
     useEffect(() => {
         if (callStatus === CallStatus.FINISHED) {
             if (type === "generate") {
                 router.push('/');
             } else {
-                handleGenerateFeedback(messages);
+                setTimeout(() => {
+                    handleGenerateFeedback(messages);
+                  }, 1000); // 1 second delay
             }
             
       }
