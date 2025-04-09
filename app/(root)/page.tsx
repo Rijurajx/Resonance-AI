@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import InterviewCard from "@/components/InterviewCard";
 import {
-  getCurrentUser,
   getInterviewsByUserId,
   getLatestInterviews,
-} from "@/lib/actions/auth.action";
+} from "@/lib/actions/general.action";
+import { getCurrentUser } from "@/lib/actions/auth.action";
 
 const page = async () => {
   const user = await getCurrentUser();
@@ -17,8 +17,6 @@ const page = async () => {
     await getLatestInterviews({ userId: user?.id! }),
   ]);
 
-
-  
   const hasPastInterviews = userInterviews?.length > 0;
   const hasUpcomingInterviews = latestInterviews?.length > 0;
 
@@ -57,7 +55,7 @@ const page = async () => {
       <section className="flex flex-col gap-6 mt8">
         <h2>Take an Interview</h2>
         <div className="interviews-section">
-        {hasUpcomingInterviews ? (
+          {hasUpcomingInterviews ? (
             latestInterviews?.map((interview) => (
               <InterviewCard {...interview} key={interview.id} />
             ))
