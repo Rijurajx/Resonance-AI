@@ -33,7 +33,7 @@ const page = async () => {
           </Button>
         </div>
         <Image
-          src="/robot.png"
+          src="/robot1.png"
           alt="robot"
           height={400}
           width={400}
