@@ -92,7 +92,8 @@ const Agent = ({ userName, userId, type, interviewId, questions }: AgentProps) =
                 router.push('/');
             } else {
                 setTimeout(() => {
-                    handleGenerateFeedback(messages);
+                  handleGenerateFeedback(messages);
+                  router.push('/interview/${interviewId}/feedback');
                   }, 1000); // 1 second delay
             }
             
@@ -196,7 +197,8 @@ const Agent = ({ userName, userId, type, interviewId, questions }: AgentProps) =
             </span>
           </button>
         ) : (
-          <button className="btn-disconnect" onClick={handleDisconnect}>End</button>
+            <button className="btn-disconnect" onClick={handleDisconnect}>End</button>
+            
         )}
       </div>
     </>
